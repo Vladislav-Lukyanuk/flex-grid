@@ -1,20 +1,26 @@
 {
-  "name": "flex-grid",
+  "name": "flex-area-grid",
   "version": "1.0.0",
   "description": "The grid on flex",
   "main": "src/index.tsx",
   "types": "src/index.d.ts",
   "scripts": {
     "test": "jest --config jestconfig.json",
-    "prepare" : "npm run build",
-    "prepublishOnly" : "npm test && npm run lint",
-    "preversion" : "npm run lint",
-    "version" : "npm run format && git add -A src",
-    "postversion" : "git push && git push --tags"
+    "build": "webpack --mode production",
+    "lint": "./node_modules/.bin/eslint src/*.* --fix",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm test && npm run lint",
+    "preversion": "npm run lint",
+    "version": "npm run format && git add -A src",
+    "postversion": "git push && git push --tags"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["flex-grid", "grid", "flex"],
+  "author": "vlukyanuk",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Vladislav-Lukyanuk/flex-grid.git"
+  },
   "devDependencies": {
     "@types/jest": "^26.0.20",
     "@types/lodash-es": "^4.17.4",
@@ -32,7 +38,10 @@
     "jest": "^26.6.3",
     "prettier": "^2.2.1",
     "ts-jest": "^26.5.3",
-    "typescript": "^4.2.3"
+    "ts-loader": "^8.0.17",
+    "typescript": "^4.2.3",
+    "webpack": "^5.24.3",
+    "webpack-cli": "^4.5.0"
   },
   "dependencies": {
     "@types/react": "^17.0.2",
