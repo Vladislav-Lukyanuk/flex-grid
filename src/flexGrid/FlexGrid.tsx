@@ -61,7 +61,12 @@ export const FlexGrid = ({
 
   const matrix = generateMatrix(columns, childrenWithHeight);
   const realColumnsNumber = matrix[0].length;
-  const rows = getTableRows(matrix, verticalAlign, childrenWithHeight);
+  const rows = getTableRows(
+    matrix,
+    verticalAlign,
+    childrenWithHeight,
+    cellHeight
+  );
   const align = getTableCol(realColumnsNumber);
 
   return (
@@ -93,6 +98,15 @@ function fillHeight(
   const clonedArray = cloneDeep(children);
 
   clonedArray.forEach((child) => {
+    if (
+      child.props.startRow === undefined ||
+      child.props.startColumn === undefined ||
+      child.props.endRow === undefined ||
+      child.props.endColumn === undefined
+    ) {
+      return;
+    }
+
     child.props.height = height;
   });
 
@@ -104,12 +118,14 @@ function fillHeight(
  * @param {TMatrix[][]} matrix - Generated grid matrix.
  * @param {TFlexVerticalAlign} verticalAlign - verticalAlign for each cell.
  * @param {TChildren[]} children - The grid elements.
+ * @param {number | undefined} cellHeight
  * @return {JSX.Element[]} - Return table rows.
  */
 function getTableRows(
   matrix: TMatrix[][],
   verticalAlign: TFlexVerticalAlign,
-  children: TChildren[]
+  children: TChildren[],
+  cellHeight?: number
 ): JSX.Element[] {
   const rows = [];
 
@@ -130,7 +146,7 @@ function getTableRows(
       } else if (item === undefined) {
         rowItems.push(
           <TableDataFillHeightStyled>
-            <div />
+            <div style={{ height: cellHeight }} />
           </TableDataFillHeightStyled>
         );
       }
