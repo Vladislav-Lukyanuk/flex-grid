@@ -1,10 +1,7 @@
 const path = require("path");
 
 module.exports = {
-  entry: {
-    index: "./src/index.tsx",
-    flexGrid: "./src/flexGrid/index.ts",
-  },
+  entry: "./src/index.tsx",
   devtool: "source-map",
   module: {
     rules: [
