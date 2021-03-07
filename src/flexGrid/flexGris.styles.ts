@@ -3,6 +3,7 @@ import styled, { css } from "styled-components";
 import { TFlexVerticalAlign } from "./FlexGrid";
 
 type TTableStyled = {
+  showGrid?: boolean;
   gridRowGap: number;
   gridColumnGap: number;
 };
@@ -15,6 +16,14 @@ export const TableStyled = styled.table<TTableStyled>`
 
   border-spacing: ${({ gridColumnGap, gridRowGap }) =>
     `${gridColumnGap}px ${gridRowGap}px`};
+
+  ${({ showGrid }) =>
+    showGrid &&
+    css`
+      td {
+        boder: 1px solid black;
+      }
+    `}
 `;
 
 type TColStyled = {

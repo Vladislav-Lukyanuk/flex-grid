@@ -34,6 +34,7 @@ export type TChildren =
   | null;
 
 export type TFlexGrid = {
+  showGrid?: boolean;
   cellHeight?: number;
   columns: number;
   verticalAlign: TFlexVerticalAlign;
@@ -43,6 +44,7 @@ export type TFlexGrid = {
 };
 
 export const FlexGrid = ({
+  showGrid,
   cellHeight,
   columns,
   verticalAlign,
@@ -63,7 +65,11 @@ export const FlexGrid = ({
   const align = getTableCol(realColumnsNumber);
 
   return (
-    <TableStyled gridRowGap={gridRowGap} gridColumnGap={gridColumnGap}>
+    <TableStyled
+      showGrid={showGrid}
+      gridRowGap={gridRowGap}
+      gridColumnGap={gridColumnGap}
+    >
       <colgroup>{align}</colgroup>
       <tbody>{rows}</tbody>
     </TableStyled>
