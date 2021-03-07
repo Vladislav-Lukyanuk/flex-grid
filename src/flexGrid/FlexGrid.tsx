@@ -99,10 +99,10 @@ function fillHeight(
 
   clonedArray.forEach((child) => {
     if (
-      child.props.startRow === undefined ||
-      child.props.startColumn === undefined ||
-      child.props.endRow === undefined ||
-      child.props.endColumn === undefined
+      child.props.startRow !== undefined ||
+      child.props.startColumn !== undefined ||
+      child.props.endRow !== undefined ||
+      child.props.endColumn !== undefined
     ) {
       return;
     }
