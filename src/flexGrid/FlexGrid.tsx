@@ -49,8 +49,9 @@ export const FlexGrid = ({
   const childrenArray = isArray(children) ? children : [children];
 
   const matrix = generateMatrix(columns, childrenArray);
+  const realColumnsNumber = matrix[0].length;
   const rows = getTableRows(matrix, verticalAlign, childrenArray);
-  const align = getTableCol(childrenArray);
+  const align = getTableCol(realColumnsNumber);
 
   return (
     <TableStyled gridRowGap={gridRowGap} gridColumnGap={gridColumnGap}>
@@ -104,16 +105,18 @@ function getTableRows(
 
 /**
  * Generates the table col.
- * @param {TChildren[]} children - The grid elements.
+ * @param {number} columnsNumber - The number of grid columns.
  * @return {JSX.Element[]} - Return table cl.
  */
-function getTableCol(children: TChildren[]): JSX.Element[] {
+function getTableCol(columnsNumber: number): JSX.Element[] {
   const align: JSX.Element[] = [];
-  const widthOfColumn = 100 / children.length;
+  const widthOfColumn = 100 / columnsNumber;
 
-  children.forEach(() => {
-    align.push(<ColStyled width={widthOfColumn} />);
-  });
+  Array(columnsNumber)
+    .fill(0)
+    .forEach(() => {
+      align.push(<ColStyled width={widthOfColumn} />);
+    });
 
   return align;
 }
