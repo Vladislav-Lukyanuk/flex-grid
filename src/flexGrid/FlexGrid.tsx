@@ -6,6 +6,7 @@ import {
   ColStyled,
   TableDataFillHeightStyled,
   TableDataStyled,
+  TableItemWrapperStyled,
   TableStyled,
 } from "./flexGris.styles";
 
@@ -21,7 +22,7 @@ export type TFlexGridItem = TArea & {
 };
 
 export const FlexGridItem = ({ children }: TFlexGridItem) => (
-  <div style={{ height: "100%", width: "100%" }}>{children}</div>
+  <TableItemWrapperStyled>{children}</TableItemWrapperStyled>
 );
 
 export type TFlexVerticalAlign = "center" | "top" | "bottom";

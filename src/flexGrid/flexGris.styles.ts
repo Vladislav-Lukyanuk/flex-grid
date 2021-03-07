@@ -36,3 +36,8 @@ type TTableDataStyled = {
 export const TableDataStyled = styled.td<TTableDataStyled>`
   vertical-align: ${({ verticalAlign }) => verticalAlign};
 `;
+
+export const TableItemWrapperStyled = styled.div`
+  height: 100%;
+  width: 100%;
+`;
