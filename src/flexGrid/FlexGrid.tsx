@@ -21,7 +21,7 @@ export type TFlexGridItem = TArea & {
 };
 
 export const FlexGridItem = ({ children }: TFlexGridItem) => (
-  <div>{children}</div>
+  <div style={{ height: "100%", width: "100%" }}>{children}</div>
 );
 
 export type TFlexVerticalAlign = "center" | "top" | "bottom";
