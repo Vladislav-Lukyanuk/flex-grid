@@ -1,12 +1,13 @@
 {
   "name": "flex-area-grid",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "The grid on flex",
-  "main": "src/index.tsx",
-  "types": "src/index.d.ts",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
     "test": "jest --config jestconfig.json",
     "build": "webpack --mode production",
+    "format": "./node_modules/.bin/eslint src/*.* --fix",
     "lint": "./node_modules/.bin/eslint src/*.* --fix",
     "prepare": "npm run build",
     "prepublishOnly": "npm test && npm run lint",
@@ -14,13 +15,18 @@
     "version": "npm run format && git add -A src",
     "postversion": "git push && git push --tags"
   },
-  "keywords": ["flex-grid", "grid", "flex"],
+  "keywords": [
+    "flex-grid",
+    "grid",
+    "flex"
+  ],
   "author": "vlukyanuk",
   "license": "ISC",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Vladislav-Lukyanuk/flex-grid.git"
   },
+  "files": ["lib/**/*"],
   "devDependencies": {
     "@types/jest": "^26.0.20",
     "@types/lodash-es": "^4.17.4",

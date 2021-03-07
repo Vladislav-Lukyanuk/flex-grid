@@ -1,7 +1,11 @@
 const path = require("path");
 
 module.exports = {
-  entry: "./src/index.tsx",
+  devtool: "source-map",
+  entry: {
+    index: "./src/index.tsx",
+    flexGrid: "./src/flexGrid/index.ts",
+  },
   module: {
     rules: [
       {
@@ -16,8 +20,7 @@ module.exports = {
     extensions: [".tsx", ".ts", ".js"],
   },
   output: {
-    filename: "index.js",
-    chunkFilename: "[hash].[id].bundle.js",
-    path: path.resolve(__dirname, "dist"),
+    filename: "[name].js",
+    path: path.resolve(__dirname, "lib"),
   },
 };
