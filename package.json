@@ -8,7 +8,7 @@
     "test": "jest --config jestconfig.json",
     "build": "tsc",
     "format": "./node_modules/.bin/eslint src/*.* --fix",
-    "lint": "./node_modules/.bin/eslint src/*.* --fix",
+    "lint": "./node_modules/.bin/eslint src/*.*",
     "prepare": "npm run build",
     "prepublishOnly": "npm test && npm run lint",
     "preversion": "npm run lint",
@@ -16,6 +16,7 @@
     "postversion": "git push origin master && git push origin master --tags"
   },
   "keywords": [
+    "flex-area-grid",
     "flex-grid",
     "grid",
     "flex"
@@ -33,6 +34,7 @@
     "@types/jest": "^26.0.20",
     "@types/lodash-es": "^4.17.4",
     "@types/node": "^14.14.31",
+    "@types/react": "^17.0.3",
     "@types/styled-components": "^5.1.7",
     "@typescript-eslint/eslint-plugin": "^4.16.1",
     "@typescript-eslint/parser": "^4.16.1",
@@ -46,12 +48,9 @@
     "prettier": "^2.2.1",
     "ts-jest": "^26.5.3",
     "ts-loader": "^8.0.17",
-    "typescript": "^4.2.3",
-    "webpack": "^5.24.3",
-    "webpack-cli": "^4.5.0"
+    "typescript": "^4.2.3"
   },
   "dependencies": {
-    "@types/react": "^17.0.2",
     "lodash-es": "^4.17.21",
     "react": "^17.0.1",
     "styled-components": "^5.2.1"

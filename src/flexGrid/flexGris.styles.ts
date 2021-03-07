@@ -26,6 +26,7 @@ export const ColStyled = styled.col<TColStyled>`
 
 export const TableDataFillHeightStyled = styled.td`
   height: 100%;
+  width: 100%;
 `;
 
 type TTableDataStyled = {
