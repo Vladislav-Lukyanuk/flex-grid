@@ -51,6 +51,11 @@ type TTableItemWrapperStyled = {
 };
 
 export const TableItemWrapperStyled = styled.div<TTableItemWrapperStyled>`
-  overflow: auto;
   height: ${({ height }) => (height ? `${height}px` : "100%")};
+
+  ${({ height }) =>
+    height &&
+    css`
+      overflow: auto;
+    `}
 `;
