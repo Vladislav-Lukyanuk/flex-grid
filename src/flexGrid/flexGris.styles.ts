@@ -21,7 +21,7 @@ export const TableStyled = styled.table<TTableStyled>`
     showGrid &&
     css`
       td {
-        boder: 1px solid black;
+        border: 1px solid black;
       }
     `}
 `;
