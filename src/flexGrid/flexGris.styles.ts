@@ -8,6 +8,7 @@ type TTableStyled = {
 };
 
 export const TableStyled = styled.table<TTableStyled>`
+  height: 100%;
   width: ${({ gridColumnGap }) => `calc(100% + ${gridColumnGap * 2}px)`};
   margin-left: ${({ gridColumnGap }) => `-${gridColumnGap}px`};
   margin-top: ${({ gridRowGap }) => `-${gridRowGap}px`};
