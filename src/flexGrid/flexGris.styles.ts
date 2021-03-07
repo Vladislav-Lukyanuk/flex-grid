@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 import { TFlexVerticalAlign } from "./FlexGrid";
 
@@ -37,4 +37,12 @@ export const TableDataStyled = styled.td<TTableDataStyled>`
   vertical-align: ${({ verticalAlign }) => verticalAlign};
 `;
 
-export const TableItemWrapperStyled = styled.div``;
+type TTableItemWrapperStyled = {
+  height?: number;
+};
+
+export const TableItemWrapperStyled = styled.div<TTableItemWrapperStyled>`
+  ${({ height }) => css`
+    height: ${height}px;
+  `}
+`;

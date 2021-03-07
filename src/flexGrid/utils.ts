@@ -1,7 +1,7 @@
-import { FunctionComponentElement } from 'react';
-import { isNil } from 'lodash-es';
+import { FunctionComponentElement } from "react";
+import { isNil } from "lodash-es";
 
-import { TChildren, TFlexGridItem } from './FlexGrid';
+import { TFlexGridItem } from "./FlexGrid";
 
 export type TMatrix =
   | {
@@ -12,14 +12,13 @@ export type TMatrix =
   | null
   | undefined;
 
-function generateMatrix(initialColumns: number, children: TChildren[]): TMatrix[][] {
-  const filteredChildren = children.filter((child) =>
-    Boolean(child)
-  ) as FunctionComponentElement<TFlexGridItem>[];
+function generateMatrix(
+  initialColumns: number,
+  children: FunctionComponentElement<TFlexGridItem>[]
+): TMatrix[][] {
+  const [rows, columns] = getArrayDimensional(children, initialColumns);
 
-  const [rows, columns] = getArrayDimensional(filteredChildren, initialColumns);
-
-  return fillMatrix(filteredChildren, rows, columns);
+  return fillMatrix(children, rows, columns);
 }
 
 function fillMatrix(
@@ -29,48 +28,50 @@ function fillMatrix(
 ): TMatrix[][] {
   const matrix = createTwoDimensionalArray<TMatrix>(rows, columns);
 
-  children.forEach(({ props: { startRow, startColumn, endRow, endColumn } }, childIndex) => {
-    const useArea = hasArea(startRow, startColumn, endRow, endColumn);
+  children.forEach(
+    ({ props: { startRow, startColumn, endRow, endColumn } }, childIndex) => {
+      const useArea = hasArea(startRow, startColumn, endRow, endColumn);
 
-    if (useArea) {
-      const sR = startRow as number;
-      const eR = endRow as number;
-      const sC = startColumn as number;
-      const eC = endColumn as number;
+      if (useArea) {
+        const sR = startRow as number;
+        const eR = endRow as number;
+        const sC = startColumn as number;
+        const eC = endColumn as number;
 
-      const firstRowIndex = sR - 1;
-      const firstColumnIndex = sC - 1;
+        const firstRowIndex = sR - 1;
+        const firstColumnIndex = sC - 1;
 
-      if (matrix[firstRowIndex][firstColumnIndex] !== undefined) {
+        if (matrix[firstRowIndex][firstColumnIndex] !== undefined) {
+          return;
+        }
+
+        for (let i = firstRowIndex; i < eR; i++) {
+          for (let j = firstColumnIndex; j < eC; j++) {
+            if (i === firstRowIndex && j === firstColumnIndex) {
+              matrix[i][j] = {
+                rows: eR - sR + 1,
+                columns: eC - sC + 1,
+                itemIndex: childIndex,
+              };
+
+              continue;
+            }
+            matrix[i][j] = null;
+          }
+        }
+
         return;
       }
 
-      for (let i = firstRowIndex; i < eR; i++) {
-        for (let j = firstColumnIndex; j < eC; j++) {
-          if (i === firstRowIndex && j === firstColumnIndex) {
-            matrix[i][j] = {
-              rows: eR - sR + 1,
-              columns: eC - sC + 1,
-              itemIndex: childIndex,
-            };
+      const [rowIndex, columnIndex] = getEmptyCell(matrix);
 
-            continue;
-          }
-          matrix[i][j] = null;
-        }
-      }
-
-      return;
+      matrix[rowIndex][columnIndex] = {
+        rows: 1,
+        columns: 1,
+        itemIndex: childIndex,
+      };
     }
-
-    const [rowIndex, columnIndex] = getEmptyCell(matrix);
-
-    matrix[rowIndex][columnIndex] = {
-      rows: 1,
-      columns: 1,
-      itemIndex: childIndex,
-    };
-  });
+  );
 
   return matrix;
 }
@@ -110,7 +111,12 @@ function hasArea(
   endRow?: number,
   endColumn?: number
 ): boolean {
-  return !(isNil(startRow) || isNil(startColumn) || isNil(endRow) || isNil(endColumn));
+  return !(
+    isNil(startRow) ||
+    isNil(startColumn) ||
+    isNil(endRow) ||
+    isNil(endColumn)
+  );
 }
 
 function getEmptyCell<T>(matrix: T[][]): [number, number] {

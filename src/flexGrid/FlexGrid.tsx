@@ -1,5 +1,5 @@
 import React, { FunctionComponentElement, ReactNode } from "react";
-import { isArray } from "lodash-es";
+import { cloneDeep, isArray, isNil } from "lodash-es";
 
 import { generateMatrix, TMatrix } from "./utils";
 import {
@@ -18,11 +18,12 @@ export type TArea = {
 };
 
 export type TFlexGridItem = TArea & {
+  height?: number;
   children: ReactNode;
 };
 
-export const FlexGridItem = ({ children }: TFlexGridItem) => (
-  <TableItemWrapperStyled>{children}</TableItemWrapperStyled>
+export const FlexGridItem = ({ height, children }: TFlexGridItem) => (
+  <TableItemWrapperStyled height={height}>{children}</TableItemWrapperStyled>
 );
 
 export type TFlexVerticalAlign = "center" | "top" | "bottom";
@@ -33,6 +34,7 @@ export type TChildren =
   | null;
 
 export type TFlexGrid = {
+  cellHeight?: number;
   columns: number;
   verticalAlign: TFlexVerticalAlign;
   gridRowGap?: number;
@@ -41,6 +43,7 @@ export type TFlexGrid = {
 };
 
 export const FlexGrid = ({
+  cellHeight,
   columns,
   verticalAlign,
   gridRowGap = 0,
@@ -48,10 +51,15 @@ export const FlexGrid = ({
   children,
 }: TFlexGrid) => {
   const childrenArray = isArray(children) ? children : [children];
+  const filteredChildren = childrenArray.filter((child) =>
+    Boolean(child)
+  ) as FunctionComponentElement<TFlexGridItem>[];
 
-  const matrix = generateMatrix(columns, childrenArray);
+  const childrenWithHeight = fillHeight(filteredChildren, cellHeight);
+
+  const matrix = generateMatrix(columns, childrenWithHeight);
   const realColumnsNumber = matrix[0].length;
-  const rows = getTableRows(matrix, verticalAlign, childrenArray);
+  const rows = getTableRows(matrix, verticalAlign, childrenWithHeight);
   const align = getTableCol(realColumnsNumber);
 
   return (
@@ -61,6 +69,29 @@ export const FlexGrid = ({
     </TableStyled>
   );
 };
+
+/**
+ * Set height for each cell.
+ * @param {FunctionComponentElement<TFlexGridItem>[]} children
+ * @param {number | undefined} height.
+ * @return {JSX.Element[]} - Return grid elements with height.
+ */
+function fillHeight(
+  children: FunctionComponentElement<TFlexGridItem>[],
+  height?: number
+): JSX.Element[] {
+  if (isNil(height)) {
+    return children;
+  }
+
+  const clonedArray = cloneDeep(children);
+
+  clonedArray.forEach((child) => {
+    child.props.height = height;
+  });
+
+  return clonedArray;
+}
 
 /**
  * Generates the table rows.
