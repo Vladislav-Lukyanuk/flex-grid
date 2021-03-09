@@ -12,6 +12,12 @@ export type TMatrix =
   | null
   | undefined;
 
+/**
+ * Generates a grid matrix.
+ * @param {number} initialColumns - The number of grid columns.
+ * @param {FunctionComponentElement<TFlexGridItem>[]} children - A grid items.
+ * @return {TMatrix[][]} - Returns a grid matrix using for draw an a grid.
+ */
 function generateMatrix(
   initialColumns: number,
   children: FunctionComponentElement<TFlexGridItem>[]
@@ -21,6 +27,13 @@ function generateMatrix(
   return fillMatrix(children, rows, columns);
 }
 
+/**
+ * Fill a grid matrix with grid items.
+ * @param {FunctionComponentElement<TFlexGridItem>[]} children - A grid items.
+ * @param {number} rows - The number of grid rows.
+ * @param {number} columns - The number of grid columns.
+ * @return {TMatrix[][]} - Returns a grid matrix using for draw an a grid.
+ */
 function fillMatrix(
   children: FunctionComponentElement<TFlexGridItem>[],
   rows: number,
@@ -76,6 +89,12 @@ function fillMatrix(
   return matrix;
 }
 
+/**
+ * Calculate the array dimensional.
+ * @param array - A grid items.
+ * @param initialColumns - An initial grid columns
+ * @return {[number, number]} - Returns a grid row and column numbers.
+ */
 function getArrayDimensional(
   array: FunctionComponentElement<TFlexGridItem>[],
   initialColumns: number
@@ -105,6 +124,14 @@ function getArrayDimensional(
   return [rows, maxColumn];
 }
 
+/**
+ * Check is grid item has an area properties.
+ * @param startRow - A start row position.
+ * @param startColumn - A start column position.
+ * @param endRow - An end row position.
+ * @param endColumn - An end column position.
+ * @return {boolean} - Returns boolean flag.
+ */
 function hasArea(
   startRow?: number,
   startColumn?: number,
@@ -119,6 +146,11 @@ function hasArea(
   );
 }
 
+/**
+ * Get empty cell indexes from a grid matrix.
+ * @param matrix - A grid matrix.
+ * @return {[number, number]} - Returns empty cell indexes.
+ */
 function getEmptyCell<T>(matrix: T[][]): [number, number] {
   for (let i = 0; i < matrix.length; i++) {
     for (let j = 0; j < matrix[0].length; j++) {
@@ -131,6 +163,12 @@ function getEmptyCell<T>(matrix: T[][]): [number, number] {
   return [0, 0];
 }
 
+/**
+ * Create matrix suing row and column numbers.
+ * @param rows - The number of grid rows.
+ * @param columns - The number of grid columns.
+ * @return {[number, number]} - Returns empty two dimensional array.
+ */
 function createTwoDimensionalArray<T>(rows: number, columns: number): T[][] {
   const arr = new Array(rows);
 
@@ -141,4 +179,4 @@ function createTwoDimensionalArray<T>(rows: number, columns: number): T[][] {
   return arr;
 }
 
-export { generateMatrix };
+export { generateMatrix, hasArea };

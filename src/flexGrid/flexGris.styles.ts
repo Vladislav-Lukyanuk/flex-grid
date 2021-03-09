@@ -59,3 +59,11 @@ export const TableItemWrapperStyled = styled.div<TTableItemWrapperStyled>`
       overflow: auto;
     `}
 `;
+
+type TEmptyBlockStyled = {
+  height?: number;
+};
+
+export const EmptyBlockStyled = styled.div<TEmptyBlockStyled>`
+  height: ${({ height }) => `${height}px`};
+`;

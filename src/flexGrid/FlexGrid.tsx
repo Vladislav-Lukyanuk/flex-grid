@@ -1,14 +1,15 @@
 import React, { FunctionComponentElement, ReactNode } from "react";
 import { cloneDeep, isArray, isNil } from "lodash-es";
 
-import { generateMatrix, TMatrix } from "./utils";
 import {
   ColStyled,
+  EmptyBlockStyled,
   TableDataFillHeightStyled,
   TableDataStyled,
   TableItemWrapperStyled,
   TableStyled,
 } from "./flexGris.styles";
+import { generateMatrix, hasArea, TMatrix } from "./utils";
 
 export type TArea = {
   startRow?: number;
@@ -57,7 +58,11 @@ export const FlexGrid = ({
     Boolean(child)
   ) as FunctionComponentElement<TFlexGridItem>[];
 
-  const childrenWithHeight = fillHeight(filteredChildren, cellHeight);
+  const childrenWithHeight = fillHeight(
+    filteredChildren,
+    gridRowGap,
+    cellHeight
+  );
 
   const matrix = generateMatrix(columns, childrenWithHeight);
   const realColumnsNumber = matrix[0].length;
@@ -84,11 +89,13 @@ export const FlexGrid = ({
 /**
  * Set height for each cell.
  * @param {FunctionComponentElement<TFlexGridItem>[]} children
+ * @param {number | undefined} rowGap.
  * @param {number | undefined} height.
- * @return {JSX.Element[]} - Return grid elements with height.
+ * @return {JSX.Element[]} - Returns grid elements with height.
  */
 function fillHeight(
   children: FunctionComponentElement<TFlexGridItem>[],
+  rowGap: number = 0,
   height?: number
 ): JSX.Element[] {
   if (isNil(height)) {
@@ -99,11 +106,21 @@ function fillHeight(
 
   clonedArray.forEach((child) => {
     if (
-      child.props.startRow !== undefined ||
-      child.props.startColumn !== undefined ||
-      child.props.endRow !== undefined ||
-      child.props.endColumn !== undefined
+      hasArea(
+        child.props.startRow,
+        child.props.startColumn,
+        child.props.endRow,
+        child.props.endColumn
+      )
     ) {
+      child.props.height =
+        ((child.props.endRow as number) -
+          (child.props.startRow as number) +
+          1) *
+          height +
+        ((child.props.endRow as number) - (child.props.startRow as number)) *
+          rowGap;
+
       return;
     }
 
@@ -119,7 +136,7 @@ function fillHeight(
  * @param {TFlexVerticalAlign} verticalAlign - verticalAlign for each cell.
  * @param {TChildren[]} children - The grid elements.
  * @param {number | undefined} cellHeight
- * @return {JSX.Element[]} - Return table rows.
+ * @return {JSX.Element[]} - Returns table rows.
  */
 function getTableRows(
   matrix: TMatrix[][],
@@ -146,7 +163,7 @@ function getTableRows(
       } else if (item === undefined) {
         rowItems.push(
           <TableDataFillHeightStyled>
-            <div style={{ height: cellHeight }} />
+            <EmptyBlockStyled height={cellHeight} />
           </TableDataFillHeightStyled>
         );
       }
@@ -160,7 +177,7 @@ function getTableRows(
 /**
  * Generates the table col.
  * @param {number} columnsNumber - The number of grid columns.
- * @return {JSX.Element[]} - Return table cl.
+ * @return {JSX.Element[]} - Returns table cl.
  */
 function getTableCol(columnsNumber: number): JSX.Element[] {
   const align: JSX.Element[] = [];
