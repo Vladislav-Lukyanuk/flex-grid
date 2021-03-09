@@ -1,6 +1,6 @@
 {
   "name": "flex-area-grid",
-  "version": "1.0.24",
+  "version": "1.0.25",
   "description": "The grid on flex",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
