@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 
-import { TFlexVerticalAlign } from "./FlexGrid";
+import { TFlexAlign, TFlexJustify } from "./FlexGrid";
 
 type TTableStyled = {
   showGrid?: boolean;
@@ -38,19 +38,17 @@ export const TableDataFillHeightStyled = styled.td`
   height: 100%;
 `;
 
-type TTableDataStyled = {
-  verticalAlign: TFlexVerticalAlign;
-};
-
-export const TableDataStyled = styled.td<TTableDataStyled>`
-  vertical-align: ${({ verticalAlign }) => verticalAlign};
-`;
-
 type TTableItemWrapperStyled = {
   height?: number;
+  justify?: TFlexJustify;
+  align?: TFlexAlign;
 };
 
 export const TableItemWrapperStyled = styled.div<TTableItemWrapperStyled>`
+  display: flex;
+  justify-content: ${({ justify }) => justify};
+  align-items: ${({ align }) => align};
+
   height: ${({ height }) => (height ? `${height}px` : "100%")};
 
   ${({ height }) =>

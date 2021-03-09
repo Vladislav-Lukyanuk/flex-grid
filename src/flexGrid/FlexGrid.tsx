@@ -5,7 +5,6 @@ import {
   ColStyled,
   EmptyBlockStyled,
   TableDataFillHeightStyled,
-  TableDataStyled,
   TableItemWrapperStyled,
   TableStyled,
 } from "./flexGris.styles";
@@ -20,14 +19,50 @@ export type TArea = {
 
 export type TFlexGridItem = TArea & {
   height?: number;
+  align?: TFlexAlign;
+  justify?: TFlexJustify;
   children: ReactNode;
 };
 
-export const FlexGridItem = ({ height, children }: TFlexGridItem) => (
-  <TableItemWrapperStyled height={height}>{children}</TableItemWrapperStyled>
+export const FlexGridItem = ({
+  height,
+  align,
+  justify,
+  children,
+}: TFlexGridItem) => (
+  <TableItemWrapperStyled height={height} align={align} justify={justify}>
+    {children}
+  </TableItemWrapperStyled>
 );
 
-export type TFlexVerticalAlign = "center" | "top" | "bottom";
+type TFlexCommon = "inherit" | "initial" | "unset";
+
+export type TFlexJustify =
+  | TFlexCommon
+  | "center"
+  | "start"
+  | "end"
+  | "flex-start"
+  | "flex-end"
+  | "left"
+  | "right"
+  | "baseline"
+  | "first baseline"
+  | "last baseline"
+  | "space-between"
+  | "space-around"
+  | "space-evenly"
+  | "stretch"
+  | "safe center"
+  | "unsafe center";
+
+export type TFlexAlign =
+  | TFlexCommon
+  | "flex-start"
+  | "flex-end"
+  | "center"
+  | "baseline"
+  | "stretch";
 
 export type TChildren =
   | FunctionComponentElement<TFlexGridItem>
@@ -38,7 +73,8 @@ export type TFlexGrid = {
   showGrid?: boolean;
   cellHeight?: number;
   columns: number;
-  verticalAlign: TFlexVerticalAlign;
+  cellAlign?: TFlexAlign;
+  cellJustify?: TFlexJustify;
   gridRowGap?: number;
   gridColumnGap?: number;
   children: TChildren[] | TChildren;
@@ -48,7 +84,8 @@ export const FlexGrid = ({
   showGrid,
   cellHeight,
   columns,
-  verticalAlign,
+  cellAlign = "unset",
+  cellJustify = "unset",
   gridRowGap = 0,
   gridColumnGap = 0,
   children,
@@ -57,21 +94,20 @@ export const FlexGrid = ({
   const filteredChildren = childrenArray.filter((child) =>
     Boolean(child)
   ) as FunctionComponentElement<TFlexGridItem>[];
-
   const childrenWithHeight = fillHeight(
     filteredChildren,
     gridRowGap,
     cellHeight
   );
-
-  const matrix = generateMatrix(columns, childrenWithHeight);
-  const realColumnsNumber = matrix[0].length;
-  const rows = getTableRows(
-    matrix,
-    verticalAlign,
+  const adjustedChildren = fillVerticalAndHorizontalAlign(
     childrenWithHeight,
-    cellHeight
+    cellAlign,
+    cellJustify
   );
+
+  const matrix = generateMatrix(columns, adjustedChildren);
+  const realColumnsNumber = matrix[0].length;
+  const rows = getTableRows(matrix, adjustedChildren, cellHeight);
   const align = getTableCol(realColumnsNumber);
 
   return (
@@ -131,17 +167,37 @@ function fillHeight(
 }
 
 /**
+ * Set align and justify for each cell.
+ * @param {FunctionComponentElement<TFlexGridItem>[]} children
+ * @param align
+ * @param justify
+ * @return {JSX.Element[]} - Returns grid elements with  align and justify.
+ */
+function fillVerticalAndHorizontalAlign(
+  children: FunctionComponentElement<TFlexGridItem>[],
+  align: TFlexAlign,
+  justify: TFlexJustify
+): JSX.Element[] {
+  const clonedArray = cloneDeep(children);
+
+  clonedArray.forEach((child) => {
+    child.props.align = align;
+    child.props.justify = justify;
+  });
+
+  return clonedArray;
+}
+
+/**
  * Generates the table rows.
  * @param {TMatrix[][]} matrix - Generated grid matrix.
- * @param {TFlexVerticalAlign} verticalAlign - verticalAlign for each cell.
- * @param {TChildren[]} children - The grid elements.
+ * @param {FunctionComponentElement<TFlexGridItem>[]} children - The grid elements.
  * @param {number | undefined} cellHeight
  * @return {JSX.Element[]} - Returns table rows.
  */
 function getTableRows(
   matrix: TMatrix[][],
-  verticalAlign: TFlexVerticalAlign,
-  children: TChildren[],
+  children: FunctionComponentElement<TFlexGridItem>[],
   cellHeight?: number
 ): JSX.Element[] {
   const rows = [];
@@ -152,13 +208,9 @@ function getTableRows(
       const item = matrix[row][column];
       if (item) {
         rowItems.push(
-          <TableDataStyled
-            rowSpan={item.rows}
-            colSpan={item.columns}
-            verticalAlign={verticalAlign}
-          >
+          <td rowSpan={item.rows} colSpan={item.columns}>
             {children[item.itemIndex]}
-          </TableDataStyled>
+          </td>
         );
       } else if (item === undefined) {
         rowItems.push(
