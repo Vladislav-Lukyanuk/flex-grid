@@ -1,8 +1,8 @@
 # flex-area-grid
 
-_When is a useful?_
+_When is it a useful?_
 
-For each case when you are needed in supporting old browsers such as Internet Explorer 11 or Chrome version 41 when the grid feature isn't implemented fully.
+For each case when you are needed in supporting old browsers such as an Internet Explorer 11 or a Chrome version 41 when the grid feature isn't implemented fully.
 
 ## Examples
 
