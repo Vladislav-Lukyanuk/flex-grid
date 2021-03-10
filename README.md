@@ -14,6 +14,13 @@ For each case when you are needed in supporting old browsers such as an Internet
 6. `{number | undefined}` - gridRowGap
 7. `{number | undefined}` - gridColumnGap
 
+## FlexGridItem props:
+
+1. `{number | undefined}` - startRow
+2. `{number | undefined}` - startColumn
+3. `{number | undefined}` - endRow
+4. `{number | undefined}` - endColumn
+
 ## Examples
 
 1. __A simple grid using a fixed cell height__
