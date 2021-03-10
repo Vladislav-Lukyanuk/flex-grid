@@ -208,19 +208,23 @@ function getTableRows(
       const item = matrix[row][column];
       if (item) {
         rowItems.push(
-          <td rowSpan={item.rows} colSpan={item.columns}>
+          <td
+            key={`element_${row}_${column}`}
+            rowSpan={item.rows}
+            colSpan={item.columns}
+          >
             {children[item.itemIndex]}
           </td>
         );
       } else if (item === undefined) {
         rowItems.push(
-          <TableDataFillHeightStyled>
+          <TableDataFillHeightStyled key={`empty_cell_${row}_${column}`}>
             <EmptyBlockStyled height={cellHeight} />
           </TableDataFillHeightStyled>
         );
       }
     }
-    rows.push(<tr>{rowItems}</tr>);
+    rows.push(<tr key={`row_${row}`}>{rowItems}</tr>);
   }
 
   return rows;
@@ -237,8 +241,8 @@ function getTableCol(columnsNumber: number): JSX.Element[] {
 
   Array(columnsNumber)
     .fill(0)
-    .forEach(() => {
-      align.push(<ColStyled width={widthOfColumn} />);
+    .forEach((value, index) => {
+      align.push(<ColStyled key={`col_${index}`} width={widthOfColumn} />);
     });
 
   return align;
