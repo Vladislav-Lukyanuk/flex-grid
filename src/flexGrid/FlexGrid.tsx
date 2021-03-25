@@ -1,5 +1,5 @@
-import React, { FunctionComponentElement, ReactNode } from 'react';
-import { isArray, isNil } from 'lodash-es';
+import React, { FunctionComponentElement, ReactNode } from "react";
+import { isArray, isNil } from "lodash-es";
 
 import {
   ColStyled,
@@ -7,8 +7,8 @@ import {
   TableDataFillHeightStyled,
   TableItemWrapperStyled,
   TableStyled,
-} from './flexGris.styles';
-import { generateMatrix, hasArea, TMatrix } from './utils';
+} from "./flexGris.styles";
+import { generateMatrix, hasArea, TMatrix } from "./utils";
 
 export type TArea = {
   startRow?: number;
@@ -24,42 +24,50 @@ export type TFlexGridItem = TArea & {
   children: ReactNode;
 };
 
-export const FlexGridItem = ({ height, align, justify, children }: TFlexGridItem) => (
+export const FlexGridItem = ({
+  height,
+  align,
+  justify,
+  children,
+}: TFlexGridItem) => (
   <TableItemWrapperStyled height={height} align={align} justify={justify}>
     {children}
   </TableItemWrapperStyled>
 );
 
-type TFlexCommon = 'inherit' | 'initial' | 'unset';
+type TFlexCommon = "inherit" | "initial" | "unset";
 
 export type TFlexJustify =
   | TFlexCommon
-  | 'center'
-  | 'start'
-  | 'end'
-  | 'flex-start'
-  | 'flex-end'
-  | 'left'
-  | 'right'
-  | 'baseline'
-  | 'first baseline'
-  | 'last baseline'
-  | 'space-between'
-  | 'space-around'
-  | 'space-evenly'
-  | 'stretch'
-  | 'safe center'
-  | 'unsafe center';
+  | "center"
+  | "start"
+  | "end"
+  | "flex-start"
+  | "flex-end"
+  | "left"
+  | "right"
+  | "baseline"
+  | "first baseline"
+  | "last baseline"
+  | "space-between"
+  | "space-around"
+  | "space-evenly"
+  | "stretch"
+  | "safe center"
+  | "unsafe center";
 
 export type TFlexAlign =
   | TFlexCommon
-  | 'flex-start'
-  | 'flex-end'
-  | 'center'
-  | 'baseline'
-  | 'stretch';
+  | "flex-start"
+  | "flex-end"
+  | "center"
+  | "baseline"
+  | "stretch";
 
-export type TChildren = FunctionComponentElement<TFlexGridItem> | undefined | null;
+export type TChildren =
+  | FunctionComponentElement<TFlexGridItem>
+  | undefined
+  | null;
 
 export type TFlexGrid = {
   showGrid?: boolean;
@@ -76,8 +84,8 @@ export const FlexGrid = ({
   showGrid,
   cellHeight,
   columns,
-  cellAlign = 'unset',
-  cellJustify = 'unset',
+  cellAlign = "unset",
+  cellJustify = "unset",
   gridRowGap = 0,
   gridColumnGap = 0,
   children,
@@ -100,7 +108,11 @@ export const FlexGrid = ({
   const align = getTableCol(realColumnsNumber);
 
   return (
-    <TableStyled showGrid={showGrid} gridRowGap={gridRowGap} gridColumnGap={gridColumnGap}>
+    <TableStyled
+      showGrid={showGrid}
+      gridRowGap={gridRowGap}
+      gridColumnGap={gridColumnGap}
+    >
       <colgroup>{align}</colgroup>
       <tbody>{rows}</tbody>
     </TableStyled>
@@ -142,6 +154,10 @@ function getTableRows(
           justify: cellJustify,
         };
 
+        if (!isNil(cellHeight)) {
+          props.height = cellHeight;
+        }
+
         if (
           !isNil(cellHeight) &&
           hasArea(
@@ -152,14 +168,23 @@ function getTableRows(
           )
         ) {
           props.height =
-            ((child.props.endRow as number) - (child.props.startRow as number) + 1) * cellHeight +
-            ((child.props.endRow as number) - (child.props.startRow as number)) * gridRowGap;
+            ((child.props.endRow as number) -
+              (child.props.startRow as number) +
+              1) *
+              cellHeight +
+            ((child.props.endRow as number) -
+              (child.props.startRow as number)) *
+              gridRowGap;
         }
 
         const clonedChild = React.cloneElement(child, props);
 
         rowItems.push(
-          <td key={`element_${row}_${column}`} rowSpan={item.rows} colSpan={item.columns}>
+          <td
+            key={`element_${row}_${column}`}
+            rowSpan={item.rows}
+            colSpan={item.columns}
+          >
             {clonedChild}
           </td>
         );
