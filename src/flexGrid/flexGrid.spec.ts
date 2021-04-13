@@ -1,6 +1,6 @@
 import React from "react";
 
-import { FlexGridItem, TFlexGridItem } from "./FlexGrid";
+import { FlexGridItem, TFlexGridItem } from "./FlexGridItem";
 import { generateMatrix } from "./utils";
 
 describe("generateMatrix", () => {

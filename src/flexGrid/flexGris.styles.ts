@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 
-import { TFlexAlign, TFlexJustify } from "./FlexGrid";
+import { TFlexAlign, TFlexJustify } from "./types";
 
 type TTableStyled = {
   showGrid?: boolean;

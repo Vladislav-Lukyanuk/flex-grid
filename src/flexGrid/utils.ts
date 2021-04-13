@@ -1,7 +1,7 @@
 import { FunctionComponentElement } from "react";
 import { isNil } from "lodash-es";
 
-import { TFlexGridItem } from "./FlexGrid";
+import { TFlexGridItem } from "./FlexGridItem";
 
 export type TMatrix =
   | {

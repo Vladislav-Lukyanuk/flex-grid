@@ -1,1 +1,2 @@
-export { FlexGrid, FlexGridItem } from "./FlexGrid";
+export { FlexGrid } from "./FlexGrid";
+export { FlexGridItem } from "./FlexGridItem";
