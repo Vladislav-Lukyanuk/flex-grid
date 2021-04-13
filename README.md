@@ -9,10 +9,11 @@ For each case when you are needed in supporting old browsers such as an Internet
 1. `{boolean | undefined}` - showGrid
 2. `{number | undefined}` - cellHeight
 3. `{number}` - columns
-4. `{standart flex align-item | undefined}` - cellAlign
-5. `{standart flex justify-content | undefined}` - cellJustify
-6. `{number | undefined}` - gridRowGap
-7. `{number | undefined}` - gridColumnGap
+4. `{number[] | undefined}` - columnsWidthInPercent
+5. `{standart flex align-item | undefined}` - cellAlign
+6. `{standart flex justify-content | undefined}` - cellJustify
+7. `{number | undefined}` - gridRowGap
+8. `{number | undefined}` - gridColumnGap
 
 ## FlexGridItem props:
 
@@ -81,6 +82,27 @@ For each case when you are needed in supporting old browsers such as an Internet
 
 ```
     <FlexGrid columns={2} gridRowGap={16} gridColumnGap={16}>
+        <FlexGridItem startRow={1} startColumn={1} endRow={4} endColumn={1}>
+            <div style={{backgroundColor: 'red', height: '500px', width: '100%'}}></div>
+        </FlexGridItem>
+        <FlexGridItem startRow={1} startColumn={2} endRow={1} endColumn={2}>
+            <div style={{backgroundColor: 'green', height: '40px', width: '100%'}}></div>
+        </FlexGridItem>
+        <FlexGridItem startRow={2} startColumn={2} endRow={2} endColumn={2}>
+            <div style={{backgroundColor: 'blue', height: '100px', width: '100%'}}></div>
+        </FlexGridItem>
+        <FlexGridItem startRow={3} startColumn={2} endRow={3} endColumn={2}>
+            <div style={{backgroundColor: 'blue', height: '200px', width: '100%'}}></div>
+        </FlexGridItem>
+    </FlexGrid>
+```
+
+4. __An area grid using columnsWidthInPercent property__
+
+![An area grid using columnsWidthInPercent property](https://i.ibb.co/KWTb84T/55.png)
+
+```
+    <FlexGrid columns={2} columnsWidthInPercent={[30,70]} gridRowGap={16} gridColumnGap={16}>
         <FlexGridItem startRow={1} startColumn={1} endRow={4} endColumn={1}>
             <div style={{backgroundColor: 'red', height: '500px', width: '100%'}}></div>
         </FlexGridItem>
