@@ -1,1 +1,8 @@
-export { FlexGrid, FlexGridItem } from "./flexGrid";
+export {
+  FlexGrid,
+  FlexGridItem,
+  TFlexGrid,
+  TFlexGridItem,
+  TArea,
+  TChildren,
+} from "./flexGrid";
