@@ -9,9 +9,12 @@ import { getTableCol, getTableRows } from "./drawUtilities";
 
 import { TFlexAlign, TFlexJustify } from "./types";
 
-type TChildren = FunctionComponentElement<TFlexGridItem> | undefined | null;
+export type TChildren =
+  | FunctionComponentElement<TFlexGridItem>
+  | undefined
+  | null;
 
-type TFlexGrid = {
+export type TFlexGrid = {
   showGrid?: boolean;
   cellHeight?: number;
   columns: number;

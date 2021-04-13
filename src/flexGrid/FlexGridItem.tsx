@@ -3,7 +3,7 @@ import React, { ReactNode } from "react";
 import { TableItemWrapperStyled } from "./flexGris.styles";
 import { TFlexAlign, TFlexJustify } from "./types";
 
-type TArea = {
+export type TArea = {
   startRow?: number;
   startColumn?: number;
   endRow?: number;
